@@ -5,6 +5,7 @@ import subprocess
 import botocore.session
 import json
 from sys import exit,argv
+import os
 
 help_text = '''NAME
     ec2tagread - Check tags from an ec2 instance
@@ -26,7 +27,8 @@ DESCRIPTION
     current instance''s id to get tags, so it cannot be used for check tags for
     arbitrary instance ids or be used outside an AWS instance. Instance or
     active IAM User must be capable of read tags either by aws credentials or
-    IAM instance roles (EC2 DescribeTags permission).
+    IAM instance roles (EC2 DescribeTags permission). The default region is eu-west-1,
+    you can change the region using the AWS_DEFAULT_REGION environment variable.
 
 PARAMETERS
     --list
@@ -68,7 +70,8 @@ except:
 
 try:
     session = botocore.session.get_session()
-    client = session.create_client('ec2', region_name='eu-west-1')
+    region = os.getenv('AWS_DEFAULT_REGION', 'eu-west-1')
+    client = session.create_client('ec2', region_name=region)
     tags = client.describe_tags(Filters=[{'Name': 'resource-id', 'Values': [instance_id]}])
 except:
     print "error reading tags"
