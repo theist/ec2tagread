@@ -18,7 +18,8 @@ DESCRIPTION
     current instance''s id to get tags, so it cannot be used for check tags for
     arbitrary instance ids or be used outside an AWS instance. Instance or
     active IAM User must be capable of read tags either by aws credentials or
-    IAM instance roles (EC2 DescribeTags permission).
+    IAM instance roles (EC2 DescribeTags permission). The default region is eu-west-1,
+    you can change the region using the AWS_DEFAULT_REGION environment variable.
 
 PARAMETERS
     --list
